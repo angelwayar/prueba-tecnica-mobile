@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile/src/expenses/data/models/expense.model.dart';
 import 'package:mobile/src/shared/loading.dart';
 import 'package:mobile/src/shared/app_bar_minimal.widget.dart';
+import '../../data/models/models.dart';
+import '../bloc/expenses_bloc.dart';
 import '../../../../injection.dart';
+import '../../../shared/dialog.dart';
 import '../../../../commons/info.dart';
+import '../../../shared/components/sun_text/sun_text.dart';
 import '../../../shared/components/sun_button/sun_button.dart';
 import '../../../shared/components/sun_field/date/sun_date_field.dart';
-import '../../../shared/components/sun_field/selection/sun_selection_field.dart';
 import '../../../shared/components/sun_field/text/sun_text_field.dart';
-import '../../../shared/components/sun_text/sun_text.dart';
-import '../../../shared/dialog.dart';
-import '../../bloc/expenses_bloc.dart';
+import '../../../shared/components/sun_field/selection/sun_selection_field.dart';
 
 class ExpensesPage extends StatefulWidget {
   const ExpensesPage({super.key});
@@ -21,11 +21,11 @@ class ExpensesPage extends StatefulWidget {
 }
 
 class _ExpensesPageState extends State<ExpensesPage> {
-  final TextEditingController _controllerDescription = TextEditingController();
-  final TextEditingController _controllerDestination = TextEditingController();
-  final TextEditingController _controllerAmount = TextEditingController();
-  final TextEditingController _controllerDate = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _controllerDate = TextEditingController();
+  final TextEditingController _controllerAmount = TextEditingController();
+  final TextEditingController _controllerDestination = TextEditingController();
+  final TextEditingController _controllerDescription = TextEditingController();
   Map<String, String> optionMap = {
     'Services': 'Servicios',
     'Food': 'Comida',
@@ -42,15 +42,11 @@ class _ExpensesPageState extends State<ExpensesPage> {
   }
 
   updateDateField(String newValue) {
-    setState(() {
-      _controllerDate.text = newValue;
-    });
+    _controllerDate.text = newValue;
   }
 
   updateSelectionField(dynamic newValue) {
-    setState(() {
-      _controllerDestination.text = newValue;
-    });
+    _controllerDestination.text = newValue;
   }
 
   String getKey(String value) {
@@ -76,7 +72,7 @@ class _ExpensesPageState extends State<ExpensesPage> {
         onLeftIconTap: () => Navigator.pop(context),
       ),
       body: BlocProvider<ExpensesBloc>(
-        create: (_) => Injector.getItBloc<ExpensesBloc>(),
+        create: (context) => Injector.getItBloc<ExpensesBloc>(),
         child: BlocListener<ExpensesBloc, ExpensesState>(
           listener: (context, state) {
             switch (state.status) {
@@ -92,8 +88,8 @@ class _ExpensesPageState extends State<ExpensesPage> {
             padding: const EdgeInsets.all(24),
             child: Form(
               key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: ListView(
+                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SunText(
                     text:
@@ -138,7 +134,9 @@ class _ExpensesPageState extends State<ExpensesPage> {
                     controller: _controllerDate,
                     voidCallback: updateDateField,
                   ),
-                  const Spacer(),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
                   Builder(
                     builder: (context) {
                       return SunButton(

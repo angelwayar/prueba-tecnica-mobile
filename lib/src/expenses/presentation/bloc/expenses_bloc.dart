@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:bloc/bloc.dart';
-import 'package:mobile/src/expenses/data/models/expense.model.dart';
-import '../data/datasources/expenses.datasource.dart';
+import 'package:mobile/src/expenses/domain/repositories/expense.repository.dart';
+import '../../data/models/models.dart';
 
 part 'expenses_event.dart';
 part 'expenses_state.dart';
 
 class ExpensesBloc extends Bloc<ExpensesEvent, ExpensesState> {
-  final ExpensesDataSource _repository;
+  final ExpensesRepository _repository;
+
   ExpensesBloc(this._repository) : super(ExpensesState()) {
     on<ExpensesCreated>(_onExpensesCreated);
   }

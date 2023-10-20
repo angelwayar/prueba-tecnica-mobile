@@ -1,3 +1,5 @@
+import '../../domain/entities/expense.entity.dart';
+
 class ExpenseModel extends Expense {
   ExpenseModel({
     required super.description,
@@ -16,20 +18,4 @@ class ExpenseModel extends Expense {
     data['userId'] = userId;
     return data;
   }
-}
-
-class Expense {
-  final String description;
-  final double amount;
-  final String expenseType;
-  final String expenseDate;
-  final int userId;
-
-  Expense({
-    required this.description,
-    required this.amount,
-    required this.expenseType,
-    required this.expenseDate,
-    required this.userId,
-  });
 }

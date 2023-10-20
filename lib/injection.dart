@@ -1,11 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'src/expenses/bloc/expenses_bloc.dart';
+import 'src/expenses/data/repositories/expenses.repository.dart';
+import 'src/expenses/domain/repositories/expense.repository.dart';
+import 'src/expenses/presentation/bloc/expenses_bloc.dart';
 import 'src/expenses/data/datasources/expenses.datasource.dart';
+import 'src/historical_income/presentation/bloc/historical_bloc.dart';
 import 'src/historical_income/data/datasources/historical.datasource.dart';
 import 'src/historical_income/data/repositories/historical.repository.dart';
 import 'src/historical_income/domain/repositories/historical.repository.dart';
-import 'src/historical_income/presentation/bloc/historical_bloc.dart';
 
 class Injector {
   static GetIt? _instance;
@@ -19,7 +21,12 @@ class Injector {
       /// Injector expense
 
       getIt.registerFactory(() => ExpensesBloc(_instance!())),
-      getIt.registerFactory(() => ExpensesDataSource()),
+      getIt.registerLazySingleton<ExpensesDataSource>(
+        () => ExpensesServices(),
+      ),
+      getIt.registerLazySingleton<ExpensesRepository>(
+        () => ExpenseRepositoryImpl(_instance!()),
+      ),
 
       /// Injecto Histical
 
