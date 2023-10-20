@@ -20,7 +20,10 @@ class HistoricalIncomePage extends StatelessWidget {
         onRightIconTap: () => historicalBottomSheet(context),
       ),
       body: BlocProvider<HistoricalBloc>(
-        create: (context) => Injector.getItBloc<HistoricalBloc>(),
+        create: (context) => Injector.getItBloc<HistoricalBloc>()
+          ..add(
+            GetHistoryFetched(),
+          ),
         child: BlocBuilder<HistoricalBloc, HistoricalState>(
           builder: (context, state) {
             switch (state.status) {

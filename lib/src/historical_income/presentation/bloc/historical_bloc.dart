@@ -20,6 +20,19 @@ class HistoricalBloc extends Bloc<HistoricalEvent, HistoricalState> {
       final historicalList = await _historicalRepository.getHistorical(
         userId: event.userId,
       );
-    } catch (_) {}
+      emit(
+        state.copyWith(
+          status: HistoricalStatus.success,
+          historicalList: historicalList,
+        ),
+      );
+    } catch (_) {
+      emit(
+        state.copyWith(
+          status: HistoricalStatus.failure,
+          historicalList: [],
+        ),
+      );
+    }
   }
 }
