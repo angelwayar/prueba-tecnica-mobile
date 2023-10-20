@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
                 color: Theme.of(context).colorScheme.secondary,
                 height: 75,
                 radius: 20,
-                onPressed: () {},
+                onPressed: () => Modular.to.pushNamed('/income'),
               ),
               const SizedBox(height: 16),
               SunButton(

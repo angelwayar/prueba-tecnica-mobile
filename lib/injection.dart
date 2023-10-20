@@ -8,6 +8,10 @@ import 'src/historical_income/presentation/bloc/historical_bloc.dart';
 import 'src/historical_income/data/datasources/historical.datasource.dart';
 import 'src/historical_income/data/repositories/historical.repository.dart';
 import 'src/historical_income/domain/repositories/historical.repository.dart';
+import 'src/income/presentation/bloc/income_bloc.dart';
+import 'src/income/data/datasources/income.datasource.dart';
+import 'src/income/data/repositories/income.repository.dart';
+import 'src/income/domain/repositories/income.repository.dart';
 
 class Injector {
   static GetIt? _instance;
@@ -28,7 +32,7 @@ class Injector {
         () => ExpenseRepositoryImpl(_instance!()),
       ),
 
-      /// Injecto Histical
+      /// Injector Historical
 
       getIt.registerFactory(() => HistoricalBloc(_instance!())),
       getIt.registerLazySingleton<HistoricalDataSource>(
@@ -36,6 +40,15 @@ class Injector {
       ),
       getIt.registerLazySingleton<HistoricalRepository>(
         () => HistoricalRepositoryImpl(_instance!()),
+      ),
+
+      /// Injector Income
+      getIt.registerFactory(() => IncomeBloc(_instance!())),
+      getIt.registerLazySingleton<IncomeDataSource>(
+        () => IncomeServices(),
+      ),
+      getIt.registerLazySingleton<IncomeRepository>(
+        () => IncomeRepositoryImpl(_instance!()),
       ),
     ];
   }
